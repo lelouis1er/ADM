@@ -1,0 +1,83 @@
+CREATE DATABASE ADM;
+USE ADM;
+
+CREATE TABLE clients (
+num_id INT UNSIGNED PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+prenom VARCHAR (40) ,
+adresse VARCHAR (255),
+tel INT UNSIGNED
+);
+
+CREATE TABLE fournisseur(
+nom_four VARCHAR (30) PRIMARY KEY,
+adresse VARCHAR (255) NOT NULL,
+tel INT UNSIGNED NOT NULL
+);
+
+CREATE TABLE atelier(
+num_a INT UNSIGNED PRIMARY KEY,
+nom_a VARCHAR(30) NOT NULL,
+posit_chaine INT UNSIGNED NOT NULL
+);
+
+CREATE TABLE personnel(
+mle VARCHAR (10) PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+prenom VARCHAR (40),
+adresse VARCHAR(255),
+tel INT UNSIGNED
+);
+
+CREATE TABLE materiel(
+id_mat INT UNSIGNED PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+type_m VARCHAR (255) NOT NULL,
+pu DOUBLE(7,2) NOT NULL
+);
+
+CREATE TABLE secretaire(
+mle VARCHAR (10) PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+prenom VARCHAR (40),
+adresse VARCHAR(255),
+tel INT UNSIGNED,
+poste VARCHAR (255) NOT NULL,
+mpasse VARCHAR (255) NOT NULL,
+FOREIGN KEY (mle) REFERENCES personnel(mle)
+);
+
+CREATE TABLE ouvrier(
+mle VARCHAR (10) PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+prenom VARCHAR (40),
+adresse VARCHAR(255),
+tel INT UNSIGNED,
+poste VARCHAR (255) NOT NULL,
+FOREIGN KEY (mle) REFERENCES personnel(mle)
+);
+
+CREATE TABLE meuble(
+mun_m VARCHAR (10) PRIMARY KEY,
+nom VARCHAR (30) NOT NULL,
+type_meu VARCHAR(255) NOT NULL,
+id_mat INT UNSIGNED,
+mle VARCHAR (10),
+prix DOUBLE(10,2) NOT NULL,
+qte INT UNSIGNED NOT NULL,
+FOREIGN KEY (id_mat) REFERENCES materiel(id_mat)
+);
+
+CREATE TABLE commande(
+id_cmd VARCHAR (10) PRIMARY KEY,
+num_id INT UNSIGNED,
+mle VARCHAR (10),
+num_m VARCHAR (10),
+qte INT UNSIGNED NOT NULL,
+CONSTRAINT fk_cmd1 FOREIGN KEY (num_id) REFERENCES clients(num_id), 
+CONSTRAINT fk_com2 FOREIGN KEY (mle) REFERENCES secretaire(mle),
+CONSTRAINT fk_cmd3 FOREIGN KEY (num_m) REFERENCES meuble(mun_m)
+);
+
+
+
